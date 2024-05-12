@@ -2,8 +2,9 @@ package com.Mattheo992.schoolapplication.Model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 @Data
-public class Student {
+public class Teacher {
     private Long id;
     private String phoneNumber;
     private String firstName;
@@ -11,4 +12,5 @@ public class Student {
     private String birthday;
     private String pesel;
     private String sex;
+    private BigDecimal salary;
 }
