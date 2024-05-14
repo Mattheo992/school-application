@@ -22,11 +22,11 @@ public class TeacherController {
     }
 
     @GetMapping("/id/{id}")
-    public Teacher getTeacherById(@RequestParam Long id) {
+    public Teacher getTeacherById(@PathVariable Long id) {
         return teacherService.getTeacherById(id);
     }
 
-    @GetMapping("/{sex}")
+    @GetMapping
     public List<Teacher> getTeachersBySex(@RequestParam Sex sex) {
         return teacherService.getTeachersBySex(sex);
     }
