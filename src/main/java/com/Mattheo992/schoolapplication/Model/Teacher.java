@@ -3,14 +3,16 @@ package com.Mattheo992.schoolapplication.Model;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Data
 public class Teacher {
     private Long id;
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private String birthday;
+    private LocalDateTime birthday;
     private String pesel;
-    private String sex;
+    private Sex sex;
     private BigDecimal salary;
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,16 +17,16 @@ public class StudentService {
         return studentRepository.getStudents();
     }
 
-    public Student getStudentById(Long id) {
-        return studentRepository.getStudentById(id).orElse(null);
+    public Optional<Student> getStudentById(Long id) {
+        return studentRepository.getStudentById(id);
     }
 
     public List<Student> getStudentsWithTheSameLastName(String lastName) {
         return studentRepository.getStudentsWithTheSameLastName(lastName);
     }
 
-    public void createStudent(Student student) {
-        studentRepository.createStudent(student);
+    public Student createStudent(Student student) {
+        return studentRepository.createStudent(student);
     }
 
     public void deleteStudent(Long id) {

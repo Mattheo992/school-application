@@ -1,11 +1,10 @@
 package com.Mattheo992.schoolapplication.Service;
 
-import com.Mattheo992.schoolapplication.Model.Student;
+import com.Mattheo992.schoolapplication.Model.Sex;
 import com.Mattheo992.schoolapplication.Model.Teacher;
 import com.Mattheo992.schoolapplication.Repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -17,7 +16,8 @@ public class TeacherService {
     public List<Teacher> getTeachers() {
         return teacherRepository.getTeachers();
     }
-    public List<Teacher> getTeachersBySex(String sex){
+
+    public List<Teacher> getTeachersBySex(Sex sex) {
         return teacherRepository.getTeachersBySex(sex);
     }
 
@@ -25,8 +25,8 @@ public class TeacherService {
         return teacherRepository.getTeacherById(id).orElse(null);
     }
 
-    public void createTeacher (Teacher teacher) {
-        teacherRepository.createTeacher(teacher);
+    public Teacher createTeacher(Teacher teacher) {
+        return teacherRepository.createTeacher(teacher);
     }
 
     public void deleteTeacher(Long id) {
@@ -34,7 +34,7 @@ public class TeacherService {
     }
 
     public void editTeacher(Long id, Teacher newTeacher) {
-      teacherRepository.editTeacher(id, newTeacher);
+        teacherRepository.editTeacher(id, newTeacher);
     }
 
     public void editTeacherPhoneNumber(Long id, String newPhoneNumber) {

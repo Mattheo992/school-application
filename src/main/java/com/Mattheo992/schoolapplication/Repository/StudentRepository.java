@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Repository
 public class StudentRepository {
     private List<Student> students = new ArrayList<>();
@@ -21,11 +22,12 @@ public class StudentRepository {
                 .findFirst();
     }
 
-    public List<Student> getStudentsWithTheSameLastName(String lastName){
+    public List<Student> getStudentsWithTheSameLastName(String lastName) {
         return students.stream()
                 .filter(student -> lastName.equals(student.getLastName()))
                 .collect(Collectors.toList());
     }
+
     public Student createStudent(Student student) {
         students.add(student);
         return student;
@@ -34,7 +36,8 @@ public class StudentRepository {
     public void deleteStudent(Long id) {
         students.removeIf(student -> id.equals(student.getId()));
     }
-    public void editStudent (Long id, Student newStudent) {
+
+    public void editStudent(Long id, Student newStudent) {
         Optional<Student> editedStudent = getStudentById(id);
         if (editedStudent.isPresent()) {
             Student studentToUpdate = editedStudent.get();
@@ -46,9 +49,10 @@ public class StudentRepository {
             studentToUpdate.setSex(newStudent.getSex());
         }
     }
-    public void editStudentPhoneNumber (Long id, String newPhoneNumber){
+
+    public void editStudentPhoneNumber(Long id, String newPhoneNumber) {
         Optional<Student> editedStudent = getStudentById(id);
-        if(editedStudent.isPresent()){
+        if (editedStudent.isPresent()) {
             Student studentToUpdate = editedStudent.get();
             studentToUpdate.setPhoneNumber(newPhoneNumber);
         }
