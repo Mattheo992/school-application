@@ -2,7 +2,8 @@ package com.Mattheo992.schoolapplication.Model;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 @Data
 public class Student {
@@ -10,7 +11,7 @@ public class Student {
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private LocalDateTime birthday;
+    private LocalDate birthday;
     private String pesel;
     private Sex sex;
 }

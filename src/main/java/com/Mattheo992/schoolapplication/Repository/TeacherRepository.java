@@ -3,7 +3,10 @@ package com.Mattheo992.schoolapplication.Repository;
 import com.Mattheo992.schoolapplication.Model.Sex;
 import com.Mattheo992.schoolapplication.Model.Student;
 import com.Mattheo992.schoolapplication.Model.Teacher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +21,15 @@ public class TeacherRepository {
         return new ArrayList<>(teachers);
     }
 
-    public List<Teacher> getTeachersBySex(Sex sex) {
+    public List<Teacher> getTeachersBySex(Enum sex) {
         return teachers.stream()
-                .filter(teacher -> sex.equals(teacher.getSex()))
-                .collect(Collectors.toList());
+                .filter(teacher -> teacher.getSex() != null && teacher.getSex().equals(sex))
+                .toList();
     }
 
     public Optional<Teacher> getTeacherById(Long id) {
         return teachers.stream()
-                .filter(teacher -> id.equals(teacher.getId()))
+                .filter(teacher -> teacher.getId().equals(id))
                 .findFirst();
     }
 
@@ -36,28 +39,38 @@ public class TeacherRepository {
     }
 
     public void deleteTeacher(Long id) {
-        teachers.removeIf(teacher -> id.equals(teacher.getId()));
+        Teacher teacher = getTeacherById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Teacher with given id does not exist"));
+        teachers.remove(teacher);
     }
 
-    public void editTeacher(Long id, Teacher newTeacher) {
-        Optional<Teacher> editedTeacher = getTeacherById(id);
-        if (editedTeacher.isPresent()) {
-            Teacher teacherToUpdate = editedTeacher.get();
-            teacherToUpdate.setPhoneNumber(newTeacher.getPhoneNumber());
-            teacherToUpdate.setFirstName(newTeacher.getFirstName());
-            teacherToUpdate.setLastName(newTeacher.getLastName());
-            teacherToUpdate.setBirthday(newTeacher.getBirthday());
-            teacherToUpdate.setPesel(newTeacher.getPesel());
-            teacherToUpdate.setSex(newTeacher.getSex());
-            teacherToUpdate.setSalary(newTeacher.getSalary());
-        }
+    public Teacher editTeacher(Long id, Teacher newTeacher) {
+        Teacher teacher = getTeacherById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Teacher with given id does not exist"));
+        teacher.setPhoneNumber(newTeacher.getPhoneNumber());
+        teacher.setFirstName(newTeacher.getFirstName());
+        teacher.setLastName(newTeacher.getLastName());
+        teacher.setBirthday(newTeacher.getBirthday());
+        teacher.setPesel(newTeacher.getPesel());
+        teacher.setSex(newTeacher.getSex());
+        teacher.setSalary(newTeacher.getSalary());
+        return teacher;
     }
 
-    public void editTeacherPhoneNumber(Long id, String newPhoneNumber) {
-        Optional<Teacher> editedTeacher = getTeacherById(id);
-        if (editedTeacher.isPresent()) {
-            Teacher teacherToUpdate = editedTeacher.get();
-            teacherToUpdate.setPhoneNumber(newPhoneNumber);
-        }
+    public Teacher editTeacherPhoneNumber(Long id, Teacher newTeacher) {
+        Teacher teacher = getTeacherById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Teacher with given id does not exist"));
+
+        teacher.setPhoneNumber(newTeacher.getPhoneNumber());
+        return teacher;
+    }
+
+
+    public Teacher editTeacherBirthday(Long id, Teacher newTeacher) {
+        Teacher teacher = getTeacherById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Teacher with given id does not exist"));
+
+        teacher.setBirthday(newTeacher.getBirthday());
+        return teacher;
     }
 }

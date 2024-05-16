@@ -1,11 +1,13 @@
 package com.Mattheo992.schoolapplication.Controller;
 
+import com.Mattheo992.schoolapplication.Model.Sex;
 import com.Mattheo992.schoolapplication.Model.Student;
 import com.Mattheo992.schoolapplication.Service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,41 +15,43 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/students")
 public class StudentController {
+
     private final StudentService studentService;
 
     @GetMapping
-    public List<Student> getStudents() {
-        return studentService.getStudents();
+    public List<Student> getStudents(@RequestParam(required = false) String lastName) {
+        return studentService.getStudents(lastName);
     }
 
-    @GetMapping("/id/{id}")
-    public Optional<Student> getStudent(@PathVariable Long id) {
-         return studentService.getStudentById(id);
+    @GetMapping("{id}")
+    public Student getStudent(@PathVariable("id") Long id) {
+        return studentService.getStudentById(id);
     }
 
-    @GetMapping("/{lastName}")
-    public List<Student> getStudentsByLastName(@RequestParam String lastName) {
-        return studentService.getStudentsWithTheSameLastName(lastName);
-    }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
         return studentService.createStudent(student);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
     }
 
     @PutMapping("/{id}")
-    public void editStudent(@PathVariable Long id, @RequestBody Student newStudent) {
-        studentService.editStudent(id, newStudent);
+    public Student editStudent(@PathVariable("id") Long id, @RequestBody Student newStudent) {
+        return studentService.editStudent(id, newStudent);
     }
 
-    @PatchMapping("/{id}")
-    public void editStudentPhoneNumber(@PathVariable Long id, @RequestBody String phoneNumber) {
-        studentService.editStudentPhoneNumber(id, phoneNumber);
+    @PatchMapping("/{id}/number")
+    public Student editStudentPhoneNumber(@PathVariable("id") Long id, @RequestBody Student newStudent) {
+        return studentService.editStudentPhoneNumber(id, newStudent);
+    }
+
+    @PatchMapping("{id}/birthday")
+    public Student editStudentBirthday(@PathVariable("id") Long id, @RequestBody Student newStudent) {
+        return studentService.editStudentBirthday(id, newStudent);
     }
 }

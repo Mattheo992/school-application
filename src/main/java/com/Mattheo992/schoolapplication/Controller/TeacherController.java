@@ -7,48 +7,51 @@ import com.Mattheo992.schoolapplication.Service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.Mattheo992.schoolapplication.Model.Sex;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequestMapping("/teachers")
 @RequiredArgsConstructor
 @RestController
 public class TeacherController {
+
     private final TeacherService teacherService;
 
     @GetMapping
-    public List<Teacher> getTeachers() {
-        return teacherService.getTeachers();
+    public List<Teacher> getTeachers(@RequestParam(required = false) Sex sex) {
+        return teacherService.getTeachers(sex);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("{id}")
     public Teacher getTeacherById(@PathVariable Long id) {
         return teacherService.getTeacherById(id);
     }
 
-    @GetMapping
-    public List<Teacher> getTeachersBySex(@RequestParam Sex sex) {
-        return teacherService.getTeachersBySex(sex);
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public Teacher createTeacher(@RequestBody Teacher teacher) {
         return teacherService.createTeacher(teacher);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteTeacher(@PathVariable Long id) {
+    public void deleteTeacher(@PathVariable("id") Long id) {
         teacherService.deleteTeacher(id);
     }
 
     @PutMapping("/{id}")
-    public void editTeacher(@PathVariable Long id, @RequestBody Teacher newTeacher) {
-        teacherService.editTeacher(id, newTeacher);
+    public Teacher editTeacher(@PathVariable("id") Long id, @RequestBody Teacher newTeacher) {
+        return teacherService.editTeacher(id, newTeacher);
     }
 
-    @PatchMapping("/{id}")
-    public void editTeacherPhoneNumber(@PathVariable Long id, @RequestBody String newPhoneNumber) {
-        teacherService.editTeacherPhoneNumber(id, newPhoneNumber);
+    @PatchMapping("/{id}/number")
+    public Teacher editTeacherPhoneNumber(@PathVariable Long id, @RequestBody Teacher newTeacher) {
+        return teacherService.editTeacherPhoneNumber(id, newTeacher);
+    }
+
+    @PatchMapping("/{id}/birthday")
+    public Teacher editTeacherBirthday(@PathVariable Long id, @RequestBody Teacher newTeacher) {
+        return teacherService.editTeacherBirthday(id, newTeacher);
     }
 }
